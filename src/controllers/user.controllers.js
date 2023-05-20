@@ -62,7 +62,10 @@ export const updateInfo = async (req, res) => {
         (user) => user._id === req.params.id
     );
 
+    
+
     if(!userFound) return res.sendStatus(404);
+
 
     userFound.age = req.body.age
     userFound.eyeColor = req.body.eyeColor
@@ -73,11 +76,14 @@ export const updateInfo = async (req, res) => {
     userFound.password = req.body.password
     userFound.phone = req.body.phone
     userFound.address = req.body.address
+
+    const { _id, guid, isActive, picture, age, eyeColor, name, company, email, password, phone, address } = userFound;
    
 
     db.data.users.map(t => t.id === req.params.id ? userFound : t)
 
     await db.write();
 
-    res.send(userFound);
+    res.json({_id, guid, isActive, picture, age, eyeColor, name, company, email,password, phone, address})
+
 };
